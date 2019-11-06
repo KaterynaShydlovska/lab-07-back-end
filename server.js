@@ -55,7 +55,7 @@ let locations = {};
 
 // Route Definitions
 app.get('/location', locationHandler);
-// app.get('/weather', weatherHandler);
+app.get('/weather', weatherHandler);
 app.use('*', notFoundHandler);
 app.use(errorHandler);
 
@@ -87,19 +87,26 @@ function Location(query, geoData) {
   this.longitude = geoData.results[0].geometry.location.lng;
 }
 
+function weatherHandler(request, response) {
 
-app.get('/weather', (request, response) => {
-  // send the users current location back to them
-  const forecast = require('./data/darksky.json');
-  const weatherData = forecast.daily.data.map(entry => {
-    return new Weather(entry);
-  })
-  response.send(weatherData);
-});
+  const url = `https://api.darksky.net/forecast/${process.env.WEATHER_API_KEY}/${request.query.data.latitude},${request.query.data.longitude}`;
 
-function Weather(obj) {
-  this.forecast = obj.summary;
-  this.time = new Date(parseInt(obj.time * 1000)).toGMTString();
+  superagent.get(url)
+    .then(data => {
+      const weatherSummaries = data.body.daily.data.map(day => {
+        return new Weather(day);
+      });
+      response.status(200).json(weatherSummaries);
+    })
+    .catch(() => {
+      errorHandler('So sorry, something went wrong.', request, response);
+    });
+
+}
+
+function Weather(day) {
+  this.forecast = day.summary;
+  this.time = new Date(day.time * 1000).toString().slice(0, 15);
 }
 
 

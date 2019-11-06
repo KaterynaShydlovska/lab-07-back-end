@@ -54,6 +54,7 @@ Leandro Rodriguez
 
 ## Change Log
 1. cmmit make map()
+2. added google location
 
 ## Credits and Collaborations
 
