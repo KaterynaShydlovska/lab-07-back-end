@@ -65,6 +65,8 @@ Leandro Rodriguez
 Number and name of feature: 1. Data formatting: As a user, I want the application to provide properly formatted data so that I can view similar data for any location I choose.
 2. Locations: As a user, I want to enter the name of a location so that I do not need to look up the latitude and longitude every time I learn about a new location.
 Estimate of time needed to complete: 4h
+3. Weather: As a user, I want to request current weather information at any location, so that I can learn more about the typical weather patterns in the area of interest.
+4. EventBrite: As a user, I want to request information about events in the area, so that I can learn about what is taking place there.
 
 Start time: 9:00am
 

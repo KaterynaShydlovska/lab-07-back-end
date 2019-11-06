@@ -25,9 +25,9 @@ app.get('/location', (request, response) => {
   console.log('LOCATION END POINT REACHED')
   if (cityName === city) {
     const locationData = new Location(city, geoData);
-    response.send(locationData); 
+    response.send(locationData);
   } else {
-    response.send('500: Internal Server Error', 500); 
+    response.send('500: Internal Server Error', 500);
   }
 });
 
@@ -41,25 +41,18 @@ function Location(city, geoData) {
 
 app.get('/weather', (request, response) => {
   // send the users current location back to them
-  const forcast = require('./data/darksky.json');
-  console.log('WEATHER END POINT REACHED')
-  const weatherData = [];
-  for (let i = 0; i < forcast.daily.data.length; i++) {
-    let dataItem = forcast.daily.data[i]
-    weatherData.push(new Weather(dataItem.summary, dataItem.time));
-  }
-
+  const forecast = require('./data/darksky.json');
+  const weatherData = forecast.daily.data.map(entry => {
+    return new Weather(entry);
+  })
   response.send(weatherData);
 });
 
-function Weather(forcast, time) {
-  this.forcast = forcast;
-  this.time = new Date(parseInt(time*1000)).toGMTString();
-  // this.time = moment.utc(parseInt(time)).local()
-  // this.time = new Date(time);
- 
-  
+function Weather(obj) {
+  this.forecast = obj.summary;
+  this.time = new Date(parseInt(obj.time * 1000)).toGMTString();
 }
+
 
 
 app.listen(PORT, () => {
