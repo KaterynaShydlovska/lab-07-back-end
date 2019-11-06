@@ -55,6 +55,7 @@ Leandro Rodriguez
 ## Change Log
 1. cmmit make map()
 2. added google location
+3. added weather API
 
 ## Credits and Collaborations
 
